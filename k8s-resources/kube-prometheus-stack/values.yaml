@@ -1,0 +1,41 @@
+grafana:
+  existingSecret: grafana-admin
+  service:
+    type: ClusterIP
+  admin:
+    existingSecret: "grafana-admin"
+    userKey: admin-user
+    passwordKey: admin-password
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.giuliopime.dev
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+    tls:
+      - hosts:
+          - grafana.giuliopime.dev
+        secretName: grafana-tls
+
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn 
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 2Gi

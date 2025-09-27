@@ -1,0 +1,25 @@
+global:
+  defaultStorageClass: "longhorn"
+
+architecture: standalone
+clusterDomain: gport.giuliopime.dev
+
+auth:
+  existingSecret: "rediscreds"
+  existingSecretPasswordKey: "password"
+
+commonConfiguration: |-
+  save "3600 1 300 100 60 10000"
+
+master:
+  resources:
+    requests:
+      cpu: 1
+      memory: 2048Mi
+    limits:
+      cpu: 3
+      memory: 4096Mi
+  persistence:
+    size: 3Gi
+replica:
+  replicaCount: 0

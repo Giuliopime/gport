@@ -1,0 +1,7 @@
+# Hetzner Cloud --> create / open a project --> security --> api tokens --> create a new one with `Read` and `Write` permissions
+hcloud_token = ""
+
+# open your domain dashboard --> Overview --> scroll down until `API` on the right --> Zone ID
+cloudflare_zone_id = ""
+# Cloudflare --> Profile (top right) --> Api Tokens --> generate a token with `All zones - Zone:Read, SSL and Certificates:Edit, DNS:Edit`
+cloudflare_api_token = ""
