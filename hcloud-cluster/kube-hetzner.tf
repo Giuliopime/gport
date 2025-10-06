@@ -80,6 +80,8 @@ module "kube-hetzner" {
       ],
       taints      = [],
       count       = 2
+
+      disable_ipv4 = true
       # swap_size   = "2G" # remember to add the suffix, examples: 512M, 1G
       # zram_size   = "2G" # remember to add the suffix, examples: 512M, 1G
       # kubelet_args = ["kube-reserved=cpu=50m,memory=300Mi,ephemeral-storage=1Gi", "system-reserved=cpu=250m,memory=300Mi"]
@@ -145,7 +147,7 @@ module "kube-hetzner" {
   ]
 
   # To disable public ips on your autoscaled nodes, uncomment the following lines:
-  # autoscaler_disable_ipv4 = true
+  autoscaler_disable_ipv4 = true
   # autoscaler_disable_ipv6 = true
 
   cluster_autoscaler_extra_args = [
