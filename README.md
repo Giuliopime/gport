@@ -82,7 +82,7 @@ Kubernetes is managed using ArgoCD in the `/k8s-resources` folder.
     kubectl delete secret argocd-initial-admin-secret -n argocd
     ```
 4) Access the web UI [argocd.giuliopime.dev](https://argocd.giuliopime.dev) using the credentials created at the previous step
-5) TODO: Document how to setup this repository
+5) TODO: Document how to setup this repository and sealed secrets
 ---
 
 ## suggested tools / resources
