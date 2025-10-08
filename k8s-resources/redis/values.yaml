@@ -20,6 +20,6 @@ master:
       cpu: 3
       memory: 4096Mi
   persistence:
-    size: 3Gi
+    size: 10Gi
 replica:
   replicaCount: 0

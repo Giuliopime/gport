@@ -1,6 +1,9 @@
 # gport
 this is my IaC for my personal projects
 
+TODO:
+- [ ] longhorn ui setup
+
 ## Hetzner cluster
 I use Hetzner as cloud provider, I create a Kubernetes cluster using k3s hosted on non-dedicated servers.    
 this part is managed via terraform and the [terraform-hcloud-kube-hetzner](https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner) module.  
