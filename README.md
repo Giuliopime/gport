@@ -3,6 +3,7 @@ this is my IaC for my personal projects
 
 TODO:
 - [ ] longhorn ui setup
+- [ ] make tender nodes autoscaling
 
 ## Hetzner cluster
 I use Hetzner as cloud provider, I create a Kubernetes cluster using k3s hosted on non-dedicated servers.    

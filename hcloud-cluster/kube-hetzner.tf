@@ -79,7 +79,7 @@ module "kube-hetzner" {
         "node.longhorn.io/create-default-disk=true" # this allows longhord to use the memory for PV
       ],
       taints      = [],
-      count       = 2
+      count       = 3
 
       disable_ipv4 = true
       # swap_size   = "2G" # remember to add the suffix, examples: 512M, 1G
