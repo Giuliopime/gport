@@ -17,7 +17,7 @@ module "kube-hetzner" {
   # those, you should instead change the value here and manually re-provision each node. Grep for "lifecycle".
 
   # * Your ssh public key
-  ssh_public_key = file("~/.ssh/id_ed25519.pub")
+  ssh_public_key  = file("~/.ssh/id_ed25519.pub")
   ssh_private_key = file("~/.ssh/id_ed25519")
 
   # You can add additional SSH public Keys to grant other team members root access to your cluster nodes.
@@ -27,8 +27,8 @@ module "kube-hetzner" {
   # See https://docs.hetzner.cloud/#label-selector
   # ssh_hcloud_key_label = "role=admin"
 
-  # * For Hetzner locations see https://docs.hetzner.com/general/others/data-centers-and-connection/
-  network_region = "us-east" # change to `us-east` if location is ash
+  # * For Hetzner locations see https://docs.hetzner.com/cloud/general/locations/
+  network_region = "eu-central"
 
   # Using the default configuration you can only create a maximum of 42 agent-nodepools.
 
@@ -44,13 +44,13 @@ module "kube-hetzner" {
   control_plane_nodepools = [
     {
       name        = "control-plane",
-      server_type = "cpx21",
-      location    = "ash",
-      labels      = [
+      server_type = "cpx22",
+      location    = "nbg1",
+      labels = [
         "node.kubernetes.io/role=control-plane"
       ],
-      taints      = [],
-      count       = 3
+      taints = [],
+      count  = 3
       # swap_size   = "2G" # remember to add the suffix, examples: 512M, 1G
       # zram_size   = "2G" # remember to add the suffix, examples: 512M, 1G
       # kubelet_args = ["kube-reserved=cpu=250m,memory=1500Mi,ephemeral-storage=1Gi", "system-reserved=cpu=250m,memory=300Mi"]
@@ -69,25 +69,27 @@ module "kube-hetzner" {
     }
   ]
 
+  # I use these nodes to deploy smaller personal apps that don't need autoscaling + longhorn storage
   agent_nodepools = [
     {
-      name        = "agent-tender",
-      server_type = "cpx21",
-      location    = "ash",
-      labels      = [
-        "gport.giuliopime.dev/agent=tender",
+      name        = "agent-sailboat",
+      server_type = "cpx32",
+      location    = "nbg1",
+      labels = [
+        "gport.giuliopime.dev/agent=sailboat",
         "node.longhorn.io/create-default-disk=true" # this allows longhord to use the memory for PV
       ],
-      taints      = [],
-      count       = 3
+      taints = [],
+      count  = 1
 
-      disable_ipv4 = true
+      # TODO: disable ipv4
+      # disable_ipv4 = trur
       # swap_size   = "2G" # remember to add the suffix, examples: 512M, 1G
       # zram_size   = "2G" # remember to add the suffix, examples: 512M, 1G
       # kubelet_args = ["kube-reserved=cpu=50m,memory=300Mi,ephemeral-storage=1Gi", "system-reserved=cpu=250m,memory=300Mi"]
 
       # Fine-grained control over placement groups (nodes in the same group are spread over different physical servers, 10 nodes per placement group max):
-      # placement_group = "default"
+      placement_group = "agents"
 
       # Enable automatic backups via Hetzner (default: false)
       # backups = true
@@ -104,7 +106,7 @@ module "kube-hetzner" {
 
   # * LB location and type, the latter will depend on how much load you want it to handle, see https://www.hetzner.com/cloud/load-balancer
   load_balancer_type     = "lb11"
-  load_balancer_location = "ash"
+  load_balancer_location = "nbg1"
 
   # You can refine a base domain name to be use in this form of nodename.base_domain for setting the reverse dns inside Hetzner
   base_domain = "gport.giuliopime.dev"
@@ -113,41 +115,44 @@ module "kube-hetzner" {
   # Providing at least one map for the array enables the cluster autoscaler feature, default is disabled.
   # ⚠️ Based on how the autoscaler works with this project, you can only choose either x86 instances or ARM server types for ALL autoscaler nodepools.
   # If you are curious, it's ok to have a multi-architecture cluster, as most underlying container images are multi-architecture too.
+
+  # I use these nodes to deploy applications that need to scale automatically depending on the load
+  # 'as' stands for auto-scaling
   autoscaler_nodepools = [
-   {
-     name        = "agent-cruiser"
-     server_type = "cpx21"
-     location    = "ash"
-     min_nodes   = 1
-     max_nodes   = 15
-     labels      = {
-       "gport.giuliopime.dev/agent": "cruiser"
-     },
-     taints      = []
-     # kubelet_args = ["kube-reserved=cpu=250m,memory=1500Mi,ephemeral-storage=1Gi", "system-reserved=cpu=250m,memory=300Mi"]
-   },
     {
-      name        = "agent-racer"
-      server_type = "cpx31"
-      location    = "ash"
-      min_nodes   = 0
-      max_nodes   = 5
-      labels      = {
-        "gport.giuliopime.dev/agent": "racer"
+      name        = "agent-as-cruiser"
+      server_type = "cpx52"
+      location    = "nbg1"
+      min_nodes   = 2
+      max_nodes   = 4
+      labels = {
+        "gport.giuliopime.dev/agent" : "as-cruiser"
       },
-      taints      = [
-        {
-          key= "gport.giuliopime.dev/workload"
-          value= "medium"
-          effect= "NoExecute"
-        }
-      ]
+      taints = []
       # kubelet_args = ["kube-reserved=cpu=250m,memory=1500Mi,ephemeral-storage=1Gi", "system-reserved=cpu=250m,memory=300Mi"]
-    },
+    }
+    # {
+    #   name        = "agent-racer"
+    #   server_type = "cpx31"
+    #   location    = "ash"
+    #   min_nodes   = 0
+    #   max_nodes   = 5
+    #   labels      = {
+    #     "gport.giuliopime.dev/agent": "racer"
+    #   },
+    #   taints      = [
+    #     {
+    #       key= "gport.giuliopime.dev/workload"
+    #       value= "medium"
+    #       effect= "NoExecute"
+    #     }
+    #   ]
+    #   # kubelet_args = ["kube-reserved=cpu=250m,memory=1500Mi,ephemeral-storage=1Gi", "system-reserved=cpu=250m,memory=300Mi"]
+    # },
   ]
 
   # To disable public ips on your autoscaled nodes, uncomment the following lines:
-  autoscaler_disable_ipv4 = true
+  # autoscaler_disable_ipv4 = true
   # autoscaler_disable_ipv6 = true
 
   cluster_autoscaler_extra_args = [
@@ -228,6 +233,19 @@ module "kube-hetzner" {
   # Always be careful to not commit this file!
   create_kubeconfig = false
 
+  # Adding extra firewall rules, like opening a port
+  # More info on the format here https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall
+  extra_firewall_rules = [
+    {
+      description     = "For MongoDB"
+      direction       = "out"
+      protocol        = "tcp"
+      port            = "27017"
+      source_ips      = [] # Won't be used for this rule
+      destination_ips = ["0.0.0.0/0", "::/0"]
+    }
+  ]
+
   ### ADVANCED - Custom helm values for packages above (search _values if you want to located where those are mentioned upper in this file)
   # ⚠️ Inside the _values variable below are examples, up to you to find out the best helm values possible, we do not provide support for customized helm values.
   # Please understand that the indentation is very important, inside the EOTs, as those are proper yaml helm values.
@@ -239,6 +257,9 @@ module "kube-hetzner" {
 
   # Longhorn, all Longhorn helm values can be found at https://github.com/longhorn/longhorn/blob/master/chart/values.yaml
   # The following is an example, please note that the current indentation inside the EOT is important.
+  #
+  # autoscaler support is experimental, hoping we are good
+  # defaultClass: false makes it so longhorn isn't used as the default storage class for all our deployed applications
   longhorn_values = <<EOT
 defaultSettings:
   createDefaultDiskLabeledNodes: true
@@ -247,7 +268,7 @@ defaultSettings:
   node-down-pod-deletion-policy: delete-both-statefulset-and-deployment-pod
 persistence:
   defaultFsType: ext4
-  defaultClassReplicaCount: 3
+  defaultClassReplicaCount: 1
   defaultClass: false
   EOT
 }
