@@ -18,3 +18,5 @@ spec:
     repoURL: 'https://github.com/Giuliopime/gport.git'
     targetRevision: main
     path: k8s-resources/cert-manager
+    directory:
+      exclude: "secrets/*"

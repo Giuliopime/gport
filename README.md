@@ -1,10 +1,6 @@
 # gport
 this is my IaC for my personal projects
 
-TODO:
-- [ ] longhorn ui setup
-- [ ] make tender nodes autoscaling
-
 ## Hetzner cluster
 I use Hetzner as cloud provider, I create a Kubernetes cluster using k3s hosted on non-dedicated servers.    
 this part is managed via terraform and the [terraform-hcloud-kube-hetzner](https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner) module.  
@@ -30,9 +26,8 @@ terraform output -raw kubeconfig > ./kubeconfig
 #### what gets created
 - cloudflare records for kubernetes api and grafana dashboard
 - a control-plane node pool with 3 nodes (recommended server type at least `cpx21` because 4GB of RAM are a minimum in most cases to handle the cluster well)  
-- an agent node pool for lightweight applications and core kubernetes services (the nodes are called `agent-tender` as in the support tender of boats)  
-- an autoscaler agent node pool for general purpose applications (called `agent-cruiser` as in cruiser sailing boats)
-- an autoscaler agent node pool for resource intensive applications (called `agent-racer`)
+- an agent node pool for lightweight applications and core kubernetes services (the nodes are called `agent-sailboat`)  
+- an autoscaler agent node pool for general purpose applications (called `agent-as-sailboat`)
 - 2 Hetzner load balancers, one for the control plane and one for the agent nodes
 - all nodes use [`OpenSUSE MicroOS`](https://microos.opensuse.org)
 
@@ -49,10 +44,33 @@ kubernetes wise (installed directly via the kube-hetzner Terraform module):
 - cluster autoscaler (bless it)
 - smb support: in the future I wanna use Hetzner Storage Boxes for hosting immich and other stuff
 
-## Kubernetes
-Kubernetes is managed using ArgoCD in the `/k8s-resources` folder.  
+## Kubernetes resources
+Kubernetes resources are managed using ArgoCD in the `/k8s-resources` folder.  
 
-#### usage
+#### secrets management
+Secrets cannot be commited to git, for this reason we use [sealed secrets](https://github.com/bitnami-labs/sealed-secrets)  
+
+1) Install `kubeseal` on your local machine:
+    ```shell
+    brew install kubeseal
+    ``` 
+2) Follow [installation instructions](https://github.com/bitnami-labs/sealed-secrets?tab=readme-ov-file#installation) for sealed-secrets
+    ```shell
+    kubectl apply -k ./sealed-secrets-installation
+    ```
+3) Prepare secrets:  
+   In each folder under `/k8s-resources` there can be a `/secrets` folder.  
+   Each contains a `*-secret.template.yaml` file, duplicate it and remove the `.template` part from the new file name. Then fill out the values.
+4) Seal the secrets:
+    ```shell
+    chmod +x scripts/seal-secrets.sh && scripts/seal-secrets.sh
+    ```
+   (Recommended) You can also provide a specific folder to the script, instead of sealing all secrets: `scripts/seal-secrets.sh cert-manager`
+
+> devs note:  
+> Argocd ignores subfolders when we choose a folder as a source.  
+> Even if that's the case, I still decided to ignore `secrets` folders explicitly, 'cause you never know.
+#### argocd
 1) [install ArgoCD](https://argo-cd.readthedocs.io/en/stable/getting_started/) in the cluster:
     ```shell
     kubectl create namespace argocd

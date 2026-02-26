@@ -14,10 +14,15 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-  source:
-    repoURL: 'https://prometheus-community.github.io/helm-charts'
-    targetRevision: 77.9.1
-    chart: kube-prometheus-stack
-    helm:
-      valueFiles:
-        - ../../k8s-resources/kube-prometheus-stack/values.yaml
+  sources:
+    - repoURL: 'https://github.com/Giuliopime/gport.git'
+      targetRevision: main
+      path: k8s-resources/kube-prometheus-stack
+      directory:
+        exclude: "secrets/*"
+    - repoURL: 'https://prometheus-community.github.io/helm-charts'
+      targetRevision: 77.9.1
+      chart: kube-prometheus-stack
+      helm:
+        valueFiles:
+          - ../../k8s-resources/kube-prometheus-stack/values.yaml
