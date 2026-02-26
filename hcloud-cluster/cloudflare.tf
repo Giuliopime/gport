@@ -32,7 +32,7 @@ resource "cloudflare_dns_record" "argocd_grpc" {
   name    = "grpc.argocd"
   type    = "A"
   ttl     = 1
-  proxied = true
+  proxied = false
   content = module.kube-hetzner.ingress_public_ipv4
 }
 
