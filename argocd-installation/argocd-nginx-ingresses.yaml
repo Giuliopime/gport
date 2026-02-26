@@ -4,6 +4,7 @@ metadata:
   name: argocd-server-http-ingress
   namespace: argocd
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
@@ -30,6 +31,7 @@ metadata:
   name: argocd-server-grpc-ingress
   namespace: argocd
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
     nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
 spec:
   ingressClassName: nginx
