@@ -14,10 +14,15 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-  source:
-    repoURL: 'https://charts.bitnami.com/bitnami'
-    targetRevision: 22.0.7
-    chart: redis
-    helm:
-      valueFiles:
-        - ../../k8s-resources/redis/values.yaml
+  sources:
+    - repoURL: 'https://github.com/Giuliopime/gport.git'
+      targetRevision: main
+      path: k8s-resources/redis
+      directory:
+        exclude: "secrets/*"
+    - repoURL: 'https://charts.bitnami.com/bitnami'
+      targetRevision: 22.0.7
+      chart: redis
+      helm:
+        valueFiles:
+          - ../../k8s-resources/redis/values.yaml
