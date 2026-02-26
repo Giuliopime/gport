@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-  - https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/ha/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/ha/install.yaml
 
 patches:
   - path: overlays/argocd-cmd-params-cm.yaml
