@@ -67,6 +67,8 @@ Secrets cannot be commited to git, for this reason we use [sealed secrets](https
     ```
    (Recommended) You can also provide a specific folder to the script, instead of sealing all secrets: `scripts/seal-secrets.sh cert-manager`
 
+5) Commit and push the changes
+
 > devs note:  
 > Argocd ignores subfolders when we choose a folder as a source.  
 > Even if that's the case, I still decided to ignore `secrets` folders explicitly, 'cause you never know.
@@ -101,7 +103,10 @@ Secrets cannot be commited to git, for this reason we use [sealed secrets](https
     kubectl delete secret argocd-initial-admin-secret -n argocd
     ```
 4) Access the web UI [argocd.giuliopime.dev](https://argocd.giuliopime.dev) using the credentials created at the previous step
-5) TODO: Document how to setup this repository and sealed secrets
+5) Apply the resources in the `/k8s-resources` folder:
+    ```shell
+    kubectl apply -f ./argocd/gport.yaml
+    ```
 ---
 
 ## suggested tools / resources
