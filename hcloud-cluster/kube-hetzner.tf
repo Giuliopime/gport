@@ -243,6 +243,22 @@ module "kube-hetzner" {
       port            = "27017"
       source_ips      = [] # Won't be used for this rule
       destination_ips = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      description     = "For Redis"
+      direction       = "out"
+      protocol        = "tcp"
+      port            = "6379"
+      source_ips      = [] # Won't be used for this rule
+      destination_ips = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      description     = "For Redis"
+      direction       = "in"
+      protocol        = "tcp"
+      port            = "6379"
+      source_ips      = ["0.0.0.0/0", "::/0"]
+      destination_ips = []
     }
   ]
 
