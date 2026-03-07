@@ -17,6 +17,7 @@ spec:
   sources:
     - repoURL: 'https://github.com/Giuliopime/gport.git'
       targetRevision: main
+      ref: gportrepo
       path: k8s-resources/kube-prometheus-stack
       directory:
         exclude: "secrets/*"
@@ -25,4 +26,4 @@ spec:
       chart: kube-prometheus-stack
       helm:
         valueFiles:
-          - $1/k8s-resources/kube-prometheus-stack/values.yaml
+          - $gportrepo/k8s-resources/kube-prometheus-stack/values.yaml
