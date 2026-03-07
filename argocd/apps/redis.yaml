@@ -17,6 +17,7 @@ spec:
   sources:
     - repoURL: 'https://github.com/Giuliopime/gport.git'
       targetRevision: main
+      ref: gportrepo
       path: k8s-resources/redis
       directory:
         exclude: "secrets/*"
@@ -25,4 +26,4 @@ spec:
       chart: redis
       helm:
         valueFiles:
-          - ../../k8s-resources/redis/values.yaml
+          - $gportrepo/k8s-resources/redis/values.yaml
