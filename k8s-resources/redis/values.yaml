@@ -4,7 +4,8 @@ global:
     allowInsecureImages: true
 
 image:
-  repository: "bitnamilegacy/redis"
+  repository: "redis"
+  tag: "8.6"
 
 architecture: standalone
 clusterDomain: gport.giuliopime.dev
