@@ -1,5 +1,10 @@
 global:
   defaultStorageClass: "longhorn"
+  security:
+    allowInsecureImages: true
+
+image:
+  repository: "bitnamilegacy/redis"
 
 architecture: standalone
 clusterDomain: gport.giuliopime.dev
