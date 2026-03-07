@@ -107,6 +107,15 @@ Secrets cannot be commited to git, for this reason we use [sealed secrets](https
     ```shell
     kubectl apply -f ./argocd/gport.yaml
     ```
+   
+#### adding a repository to ArgoCD
+[full guide](https://oneuptime.com/blog/post/2026-01-25-private-git-repositories-argocd/view)  
+1) create SSH key:
+   ```shell
+   ssh-keygen -t ed25519 -C "argocd-myrepo" -f myrepo-deploy-key -N ""
+   ```
+2) go to your GitHub repository -> Settings -> Deploy keys -> Add deploy public key
+3) open [ArgoCD repository settings](https://argocd.giuliopime.dev/settings/repos) and add the repository URL (example `git@github.com:Giuliopime/gport.git`) and the content of the private key file
 ---
 
 ## suggested tools / resources
