@@ -44,3 +44,16 @@ resource "cloudflare_dns_record" "argocd" {
   proxied = true
   content = module.kube-hetzner.ingress_public_ipv4
 }
+
+
+///////////////
+//// INDEX ////
+///////////////
+resource "cloudflare_dns_record" "index_api" {
+  zone_id = var.cloudflare_index_zone_id
+  name    = "api"
+  type    = "A"
+  ttl     = 1
+  proxied = true
+  content = module.kube-hetzner.ingress_public_ipv4
+}
