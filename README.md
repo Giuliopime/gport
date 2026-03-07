@@ -76,7 +76,7 @@ Secrets cannot be commited to git, for this reason we use [sealed secrets](https
 1) [install ArgoCD](https://argo-cd.readthedocs.io/en/stable/getting_started/) in the cluster:
     ```shell
     kubectl create namespace argocd
-    kubectl apply -k ./argocd-installation
+    kubectl apply -k ./argocd-installation --server-side
     ```
 
     and on your local machine:
