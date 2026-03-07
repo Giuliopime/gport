@@ -67,7 +67,12 @@ Secrets cannot be commited to git, for this reason we use [sealed secrets](https
     ```
    (Recommended) You can also provide a specific folder to the script, instead of sealing all secrets: `scripts/seal-secrets.sh cert-manager`
 
-5) Commit and push the changes
+5) Add argocd sync wave if necessary:
+   ```yaml
+    annotations:
+      argocd.argoproj.io/sync-wave: '-1' # make sure it gets created before anything else
+   ```
+6) Commit and push the changes
 
 > devs note:  
 > Argocd ignores subfolders when we choose a folder as a source.  
