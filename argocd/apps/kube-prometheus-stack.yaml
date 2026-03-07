@@ -25,4 +25,4 @@ spec:
       chart: kube-prometheus-stack
       helm:
         valueFiles:
-          - ../../k8s-resources/kube-prometheus-stack/values.yaml
+          - k8s-resources/kube-prometheus-stack/values.yaml
