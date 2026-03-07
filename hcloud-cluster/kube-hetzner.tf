@@ -253,10 +253,18 @@ module "kube-hetzner" {
       destination_ips = ["0.0.0.0/0", "::/0"]
     },
     {
-      description     = "For Redis"
+      description     = "For ArgoCD"
+      direction       = "out"
+      protocol        = "tcp"
+      port            = "8081"
+      source_ips      = []
+      destination_ips = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      description     = "For ArgoCD"
       direction       = "in"
       protocol        = "tcp"
-      port            = "6379"
+      port            = "8081"
       source_ips      = ["0.0.0.0/0", "::/0"]
       destination_ips = []
     }
