@@ -112,6 +112,21 @@ Secrets cannot be commited to git, for this reason we use [sealed secrets](https
     ```shell
     kubectl apply -f ./argocd/gport.yaml
     ```
+
+> If you have issues with using Helm with Kustomize, then you might have to patch argocd config maps to allow helm usage from kustomize:
+```shell
+kubectl patch configmap argocd-cm -n argocd --type merge \
+  -p '{"data":{"kustomize.buildOptions":"--load-restrictor LoadRestrictionsNone --enable-helm"}}'
+```
+> then restart argocd:
+```shell
+kubectl rollout restart deployment argocd-repo-server -n argocd
+```
+> verify configs
+```shell
+kubectl get configmap argocd-cm -n argocd \
+  -o jsonpath='{.data.kustomize\.buildOptions}'
+```
    
 #### adding a repository to ArgoCD
 [full guide](https://oneuptime.com/blog/post/2026-01-25-private-git-repositories-argocd/view)  

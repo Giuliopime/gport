@@ -4,4 +4,4 @@ metadata:
   name: argocd-cmd-params-cm
 data:
   server.insecure: "true"
-  kustomize.buildOptions: --enable-helm
+  kustomize.buildOptions: "--load-restrictor=LoadRestrictionsNone --enable-helm" # allow adding Helm-values outside the kustomize root directory + allow using helm

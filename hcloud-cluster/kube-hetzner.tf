@@ -267,6 +267,14 @@ module "kube-hetzner" {
       port            = "8081"
       source_ips      = ["0.0.0.0/0", "::/0"]
       destination_ips = []
+    },
+    {
+      description     = "For RabbitMQ"
+      direction       = "out"
+      protocol        = "tcp"
+      port            = "5672"
+      source_ips      = []
+      destination_ips = ["0.0.0.0/0", "::/0"]
     }
   ]
 
