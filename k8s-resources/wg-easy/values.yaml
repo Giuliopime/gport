@@ -4,10 +4,9 @@ storage:
 
 config:
   insecure: false
-
-init:
-  existingSecret: "wg-easy-creds"
-  host: "wg.giuliopime.dev"
+  init:
+    existingSecret: "wg-easy-creds"
+    host: "wg.giuliopime.dev"
 
 ingress:
   enabled: true
