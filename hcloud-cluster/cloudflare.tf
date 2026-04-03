@@ -45,6 +45,15 @@ resource "cloudflare_dns_record" "argocd" {
   content = module.kube-hetzner.ingress_public_ipv4
 }
 
+resource "cloudflare_dns_record" "wg-easy" {
+  zone_id = var.cloudflare_zone_id
+  name    = "wg"
+  type    = "A"
+  ttl     = 1
+  proxied = true
+  content = module.kube-hetzner.ingress_public_ipv4
+}
+
 
 ///////////////
 //// INDEX ////
