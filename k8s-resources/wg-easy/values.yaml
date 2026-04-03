@@ -17,8 +17,8 @@ ingress:
   hosts:
     - host: wg.giuliopime.dev
       paths:
-        path: /
-        pathType: Prefix
+        - path: /
+          pathType: Prefix
   tls:
     - hosts:
         - wg.giuliopime.dev
