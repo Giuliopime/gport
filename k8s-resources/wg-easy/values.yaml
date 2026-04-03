@@ -1,0 +1,25 @@
+storage:
+  storageClass: "longhorn"
+  size: "256Mi"
+
+config:
+  insecure: false
+
+init:
+  existingSecret: "wg-easy-creds"
+  host: "wg.giuliopime.dev"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod-dns
+  hosts:
+    - host: wg.giuliopime.dev
+      paths:
+        path: /
+        pathType: Prefix
+  tls:
+    - hosts:
+        - wg.giuliopime.dev
+      secretName: wg-giuliopime-dev-tls

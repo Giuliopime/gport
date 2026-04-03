@@ -13,10 +13,17 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
-  source:
-    repoURL: 'https://github.com/Giuliopime/gport.git'
-    targetRevision: main
-    path: k8s-resources/wg-easy
-    directory:
-      exclude: "secrets/*"
+      - CreateNamespace=false
+  sources:
+    - repoURL: 'https://github.com/Giuliopime/gport.git'
+      targetRevision: main
+      ref: gportrepo
+      path: k8s-resources/wg-easy
+      directory:
+        exclude: "secrets/*"
+    - repoURL: 'oci://ghcr.io/slybase/charts/wg-easy'
+      targetRevision: 0.6.3
+      chart: wgeasy
+      helm:
+        valueFiles:
+          - $gportrepo/k8s-resources/wg-easy/values.yaml

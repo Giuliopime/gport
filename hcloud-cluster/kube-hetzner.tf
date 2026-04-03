@@ -237,52 +237,12 @@ module "kube-hetzner" {
   # More info on the format here https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall
   extra_firewall_rules = [
     {
-      description     = "For MongoDB"
-      direction       = "out"
-      protocol        = "tcp"
-      port            = "27017"
-      source_ips      = [] # Won't be used for this rule
-      destination_ips = ["0.0.0.0/0", "::/0"]
-    },
-    {
-      description     = "For Redis"
-      direction       = "out"
-      protocol        = "tcp"
-      port            = "6379"
-      source_ips      = [] # Won't be used for this rule
-      destination_ips = ["0.0.0.0/0", "::/0"]
-    },
-    {
-      description     = "For ArgoCD"
-      direction       = "out"
-      protocol        = "tcp"
-      port            = "8081"
-      source_ips      = []
-      destination_ips = ["0.0.0.0/0", "::/0"]
-    },
-    {
       description     = "For ArgoCD"
       direction       = "in"
       protocol        = "tcp"
       port            = "8081"
       source_ips      = ["0.0.0.0/0", "::/0"]
       destination_ips = []
-    },
-    {
-      description     = "For RabbitMQ"
-      direction       = "out"
-      protocol        = "tcp"
-      port            = "5671"
-      source_ips      = []
-      destination_ips = ["0.0.0.0/0", "::/0"]
-    },
-    {
-      description     = "For RabbitMQ"
-      direction       = "out"
-      protocol        = "tcp"
-      port            = "5672"
-      source_ips      = []
-      destination_ips = ["0.0.0.0/0", "::/0"]
     },
     {
       description     = "For RabbitMQ"
@@ -299,6 +259,22 @@ module "kube-hetzner" {
       port            = "5672"
       source_ips      = ["0.0.0.0/0", "::/0"]
       destination_ips = []
+    },
+    {
+      description     = "Allow all TCP outbound"
+      direction       = "out"
+      protocol        = "tcp"
+      port            = "any"
+      source_ips      = []
+      destination_ips = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      description     = "Allow all UDP outbound"
+      direction       = "out"
+      protocol        = "udp"
+      port            = "any"
+      source_ips      = []
+      destination_ips = ["0.0.0.0/0", "::/0"]
     }
   ]
 
