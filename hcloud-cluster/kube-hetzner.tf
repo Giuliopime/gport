@@ -268,6 +268,14 @@ module "kube-hetzner" {
       source_ips      = ["0.0.0.0/0", "::/0"]  # or restrict to your client IPs
       destination_ips = []
     },
+    {
+      description     = "Allow all UDB inbound"
+      direction       = "in"
+      protocol        = "udp"
+      port            = "any"
+      source_ips      = ["0.0.0.0/0", "::/0"]
+      destination_ips = []
+    },
     # allow ALL outbound
     {
       description     = "Allow all TCP outbound"
