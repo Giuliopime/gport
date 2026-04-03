@@ -261,6 +261,15 @@ module "kube-hetzner" {
       destination_ips = []
     },
     {
+      description     = "WireGuard VPN"
+      direction       = "in"
+      protocol        = "udp"
+      port            = "30200"
+      source_ips      = ["0.0.0.0/0", "::/0"]  # or restrict to your client IPs
+      destination_ips = []
+    },
+    # allow ALL outbound
+    {
       description     = "Allow all TCP outbound"
       direction       = "out"
       protocol        = "tcp"

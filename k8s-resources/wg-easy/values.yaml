@@ -1,3 +1,5 @@
+hostNetwork: true
+
 storage:
   storageClass: "longhorn"
   size: "256Mi"
@@ -7,6 +9,10 @@ config:
   init:
     existingSecret: "wg-easy-creds"
     host: "wg.giuliopime.dev"
+
+service:
+  wireguard:
+    type: ClusterIP
 
 ingress:
   enabled: true
