@@ -7,7 +7,6 @@ spec:
   accessModes:
     - ReadWriteMany
   storageClassName: longhorn
-  volumeName: wg-easy-pv
   resources:
     requests:
       storage: 256Mi
