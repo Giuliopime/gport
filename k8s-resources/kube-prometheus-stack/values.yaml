@@ -20,6 +20,7 @@ grafana:
 
 prometheus:
   prometheusSpec:
+    enableOTLPReceiver: true
     retention: 10d
     retentionSize: 9GiB
     storageSpec:
