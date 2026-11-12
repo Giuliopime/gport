@@ -233,50 +233,29 @@ module "kube-hetzner" {
   # Always be careful to not commit this file!
   create_kubeconfig = false
 
-  # Adding extra firewall rules, like opening a port
-  # More info on the format here https://registry.terraform.io/providers/hetznercloud/hcloud/latest/docs/resources/firewall
+  # The firewall is intentionally wide open (all inbound TCP/UDP, all outbound), this mirrors what is configured in Hetzner.
+  # Drop the module defaults so they do not add narrower duplicate rules.
+  firewall_ssh_source       = null
+  firewall_kube_api_source  = null
+  restrict_outbound_traffic = false
+
   extra_firewall_rules = [
     {
-      description     = "For ArgoCD"
+      description     = "TCP"
       direction       = "in"
       protocol        = "tcp"
-      port            = "8081"
+      port            = "any"
       source_ips      = ["0.0.0.0/0", "::/0"]
       destination_ips = []
     },
     {
-      description     = "For RabbitMQ"
-      direction       = "in"
-      protocol        = "tcp"
-      port            = "5671"
-      source_ips      = ["0.0.0.0/0", "::/0"]
-      destination_ips = []
-    },
-    {
-      description     = "For RabbitMQ"
-      direction       = "in"
-      protocol        = "tcp"
-      port            = "5672"
-      source_ips      = ["0.0.0.0/0", "::/0"]
-      destination_ips = []
-    },
-    {
-      description     = "WireGuard VPN"
-      direction       = "in"
-      protocol        = "udp"
-      port            = "30200"
-      source_ips      = ["0.0.0.0/0", "::/0"]  # or restrict to your client IPs
-      destination_ips = []
-    },
-    {
-      description     = "Allow all UDB inbound"
+      description     = "UDP"
       direction       = "in"
       protocol        = "udp"
       port            = "any"
       source_ips      = ["0.0.0.0/0", "::/0"]
       destination_ips = []
     },
-    # allow ALL outbound
     {
       description     = "Allow all TCP outbound"
       direction       = "out"
@@ -290,6 +269,14 @@ module "kube-hetzner" {
       direction       = "out"
       protocol        = "udp"
       port            = "any"
+      source_ips      = []
+      destination_ips = ["0.0.0.0/0", "::/0"]
+    },
+    {
+      description     = "Allow Outbound ICMP Ping Requests"
+      direction       = "out"
+      protocol        = "icmp"
+      port            = ""
       source_ips      = []
       destination_ips = ["0.0.0.0/0", "::/0"]
     }
