@@ -124,7 +124,7 @@ module "kube-hetzner" {
       server_type = "cpx52"
       location    = "nbg1"
       min_nodes   = 3
-      max_nodes   = 4
+      max_nodes   = 3
       labels = {
         "gport.giuliopime.dev/agent" : "as-cruiser"
       },
