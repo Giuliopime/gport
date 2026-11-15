@@ -3,6 +3,9 @@ grafana:
   envFromSecrets:
     - name: grafana-alerting
       optional: true
+  grafana.ini:
+    server:
+      root_url: https://grafana.giuliopime.dev
   sidecar:
     dashboards:
       folderAnnotation: grafana_folder
