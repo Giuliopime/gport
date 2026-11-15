@@ -4,6 +4,12 @@ grafana:
     - name: grafana-alerting
       optional: true
   sidecar:
+    dashboards:
+      folderAnnotation: grafana_folder
+      annotations:
+        grafana_folder: Infrastructure
+      provider:
+        foldersFromFilesStructure: true
     alerts:
       enabled: true
       label: grafana_alert
