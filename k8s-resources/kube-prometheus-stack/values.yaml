@@ -1,5 +1,14 @@
 grafana:
   existingSecret: grafana-admin
+  envFromSecrets:
+    - name: grafana-alerting
+      optional: true
+  sidecar:
+    alerts:
+      enabled: true
+      label: grafana_alert
+      labelValue: "1"
+      searchNamespace: ALL
   service:
     type: ClusterIP
   admin:
