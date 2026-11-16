@@ -51,6 +51,14 @@ prometheus:
               storage: 10Gi
 
 
+# k3s runs these inside a single process and does not expose their metrics endpoints, so their "down" alerts always fire
+kubeProxy:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+
 alertmanager:
   alertmanagerSpec:
     storage:
