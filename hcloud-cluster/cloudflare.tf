@@ -1,3 +1,7 @@
+data "hcloud_load_balancer" "ingress" {
+  name = "gport-traefik"
+}
+
 resource "cloudflare_dns_record" "kube_public_api" {
   zone_id = var.cloudflare_zone_id
   name    = "public.api.kube"
@@ -14,7 +18,7 @@ resource "cloudflare_dns_record" "grafana" {
   type    = "A"
   ttl     = 1
   proxied = true
-  content = module.kube-hetzner.ingress_public_ipv4
+  content = data.hcloud_load_balancer.ingress.ipv4
 }
 
 resource "cloudflare_dns_record" "longhorn" {
@@ -23,7 +27,7 @@ resource "cloudflare_dns_record" "longhorn" {
   type    = "A"
   ttl     = 1
   proxied = true
-  content = module.kube-hetzner.ingress_public_ipv4
+  content = data.hcloud_load_balancer.ingress.ipv4
 }
 
 # argoCD
@@ -33,7 +37,7 @@ resource "cloudflare_dns_record" "argocd_grpc" {
   type    = "A"
   ttl     = 1
   proxied = false
-  content = module.kube-hetzner.ingress_public_ipv4
+  content = data.hcloud_load_balancer.ingress.ipv4
 }
 
 resource "cloudflare_dns_record" "argocd" {
@@ -42,7 +46,7 @@ resource "cloudflare_dns_record" "argocd" {
   type    = "A"
   ttl     = 1
   proxied = true
-  content = module.kube-hetzner.ingress_public_ipv4
+  content = data.hcloud_load_balancer.ingress.ipv4
 }
 
 resource "cloudflare_dns_record" "wg-easy" {
@@ -51,7 +55,7 @@ resource "cloudflare_dns_record" "wg-easy" {
   type    = "A"
   ttl     = 1
   proxied = true
-  content = module.kube-hetzner.ingress_public_ipv4
+  content = data.hcloud_load_balancer.ingress.ipv4
 }
 
 
@@ -64,5 +68,5 @@ resource "cloudflare_dns_record" "index_api" {
   type    = "A"
   ttl     = 1
   proxied = true
-  content = module.kube-hetzner.ingress_public_ipv4
+  content = data.hcloud_load_balancer.ingress.ipv4
 }
