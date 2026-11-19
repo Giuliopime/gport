@@ -33,7 +33,7 @@ terraform output -raw kubeconfig > ./kubeconfig
 
 kubernetes wise (installed directly via the kube-hetzner Terraform module):
 - calico as the CNI
-- nginx
+- ingress controller: none, Traefik is installed through ArgoCD (`argocd/apps/traefik.yaml`)
 - longhorn for efficient and scalable storage management  
   is used to have fast persistant storage for stuff like DBs.  
   uses all the nodes nvme storage and manages them together giving you a simple StorageClass that you can use in your PVCs.  

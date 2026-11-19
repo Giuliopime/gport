@@ -26,6 +26,7 @@ grafana:
     passwordKey: admin-password
   ingress:
     enabled: true
+    ingressClassName: traefik
     hosts:
       - grafana.giuliopime.dev
     annotations:
