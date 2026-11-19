@@ -34,13 +34,13 @@ output "agents_public_ipv6" {
 }
 
 output "ingress_public_ipv4" {
-  value       = module.kube-hetzner.ingress_public_ipv4
-  description = "The public IPv4 address of the Hetzner load balancer (with fallback to first control plane node)."
+  value       = data.hcloud_load_balancer.ingress.ipv4
+  description = "The public IPv4 address of the Traefik Hetzner load balancer."
 }
 
 output "ingress_public_ipv6" {
-  value       = module.kube-hetzner.ingress_public_ipv6
-  description = "The public IPv6 address of the Hetzner load balancer (with fallback to first control plane node)."
+  value       = data.hcloud_load_balancer.ingress.ipv6
+  description = "The public IPv6 address of the Traefik Hetzner load balancer."
 }
 
 output "lb_control_plane_ipv4" {
@@ -124,12 +124,6 @@ output "longhorn_values" {
 output "traefik_values" {
   value       = module.kube-hetzner.traefik_values
   description = "Helm values.yaml used for Traefik."
-  sensitive   = true
-}
-
-output "nginx_values" {
-  value       = module.kube-hetzner.nginx_values
-  description = "Helm values.yaml used for nginx-ingress."
   sensitive   = true
 }
 
