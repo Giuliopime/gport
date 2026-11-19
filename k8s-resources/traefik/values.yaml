@@ -1,0 +1,48 @@
+deployment:
+  replicas: 2
+
+providers:
+  kubernetesIngress:
+    publishedService:
+      enabled: true
+
+service:
+  annotations:
+    "load-balancer.hetzner.cloud/name": "gport-traefik"
+    "load-balancer.hetzner.cloud/use-private-ip": "true"
+    "load-balancer.hetzner.cloud/disable-private-ingress": "true"
+    "load-balancer.hetzner.cloud/disable-public-network": "false"
+    "load-balancer.hetzner.cloud/ipv6-disabled": "false"
+    "load-balancer.hetzner.cloud/location": "nbg1"
+    "load-balancer.hetzner.cloud/type": "lb11"
+    "load-balancer.hetzner.cloud/uses-proxyprotocol": "true"
+    "load-balancer.hetzner.cloud/algorithm-type": "round_robin"
+    "load-balancer.hetzner.cloud/health-check-interval": "15s"
+    "load-balancer.hetzner.cloud/health-check-timeout": "10s"
+    "load-balancer.hetzner.cloud/health-check-retries": "3"
+
+ports:
+  web:
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+    proxyProtocol:
+      trustedIPs:
+        - 127.0.0.1/32
+        - 10.0.0.0/8
+    forwardedHeaders:
+      trustedIPs:
+        - 127.0.0.1/32
+        - 10.0.0.0/8
+  websecure:
+    proxyProtocol:
+      trustedIPs:
+        - 127.0.0.1/32
+        - 10.0.0.0/8
+    forwardedHeaders:
+      trustedIPs:
+        - 127.0.0.1/32
+        - 10.0.0.0/8

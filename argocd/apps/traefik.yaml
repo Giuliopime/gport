@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: traefik
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+  sources:
+    - repoURL: 'https://github.com/Giuliopime/gport.git'
+      targetRevision: main
+      ref: gportrepo
+    - repoURL: 'https://traefik.github.io/charts'
+      targetRevision: 42.4.1
+      chart: traefik
+      helm:
+        valueFiles:
+          - $gportrepo/k8s-resources/traefik/values.yaml
