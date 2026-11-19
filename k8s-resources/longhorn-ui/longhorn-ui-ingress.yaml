@@ -15,8 +15,8 @@ metadata:
     nginx.ingress.kubernetes.io/auth-realm: "Authentication Required "
     # custom max body size for file uploading like backing image uploading
     nginx.ingress.kubernetes.io/proxy-body-size: 10000m
+    traefik.ingress.kubernetes.io/router.middlewares: longhorn-system-longhorn-basic-auth@kubernetescrd
 spec:
-  ingressClassName: nginx
   rules:
     - http:
         paths:

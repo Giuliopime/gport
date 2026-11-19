@@ -29,7 +29,6 @@ grafana:
     hosts:
       - grafana.giuliopime.dev
     annotations:
-      kubernetes.io/ingress.class: nginx
       cert-manager.io/cluster-issuer: letsencrypt-prod-dns
     tls:
       - hosts:
