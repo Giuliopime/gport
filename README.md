@@ -88,9 +88,9 @@ Secrets cannot be commited to git, for this reason we use [sealed secrets](https
     ```shell
     brew install argocd
     ```
-2) Configure two Nginx ingresses for HTTP/HTTPS and gRPC:
+2) Configure two ingresses for HTTP/HTTPS and gRPC:
     ```shell
-    kubectl apply -f ./argocd-installation/argocd-nginx-ingresses.yaml
+    kubectl apply -f ./argocd-installation/argocd-ingresses.yaml
     ```
 3) Login via the cli
     ```shell
