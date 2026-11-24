@@ -20,9 +20,8 @@ metadata:
   namespace: argocd
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
+  ingressClassName: traefik
   rules:
     - http:
         paths:
@@ -46,8 +45,8 @@ metadata:
   namespace: argocd
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
-    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
 spec:
+  ingressClassName: traefik
   rules:
     - http:
         paths:

@@ -176,7 +176,8 @@ module "kube-hetzner" {
   # See https://github.com/kubereboot/kured/releases for the available versions.
   kured_version = "1.17.1"
 
-  ingress_controller = "nginx"
+  # Traefik is deployed through ArgoCD (argocd/apps/traefik.yaml) with its own Hetzner LB "gport-traefik", not by this module.
+  ingress_controller = "none"
 
   # Use the klipperLB (similar to metalLB), instead of the default Hetzner one, that has an advantage of dropping the cost of the setup.
   # Automatically "true" in the case of single node cluster (as it does not make sense to use the Hetzner LB in that situation).
